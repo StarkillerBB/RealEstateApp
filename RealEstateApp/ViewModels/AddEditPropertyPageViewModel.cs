@@ -130,9 +130,7 @@ public class AddEditPropertyPageViewModel : BaseViewModel
             _isCheckingLocation = false;
         }
     }
-
-
-
+    
     private Command cancelSaveCommand;
     public ICommand CancelSaveCommand => cancelSaveCommand ??= new Command(async () => await Shell.Current.GoToAsync(".."));
 
