@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:RealEstateApp.ViewModels"
+             xmlns:models="clr-namespace:RealEstateApp.Models"
+             xmlns:fa="clr-namespace:FontAwesome"
+             x:Class="RealEstateApp.Views.PropertyListPage"
+             x:DataType="vm:PropertyListPageViewModel"
+             Title="PropertyListPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="{AppThemeBinding Dark='Black'}" />
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PropertyListPageViewModel}}, Path=GoToAddPropertyCommand}"/>
+    </ContentPage.ToolbarItems>
+    
+
+    <RefreshView Command="{Binding GetPropertiesCommand}" IsRefreshing="{Binding IsRefreshing}"> <!-- TODO : 2.1.2-->
+
+        <CollectionView ItemsSource="{Binding PropertiesCollection}"
+                        BackgroundColor="LightGray"
+                        SelectionMode="None">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:PropertyListItem">
+                    <Grid Padding="5">
+                        <Frame  HasShadow="True">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer 
+                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PropertyListPageViewModel}}, Path=GoToDetailsCommand}"
+                                        CommandParameter="{Binding .}"/>
+                            </Frame.GestureRecognizers>
+                            <Grid Margin="0" Padding="0" BackgroundColor="White" ColumnDefinitions="Auto, *">
+                                <Image
+                                    Grid.Column="0"
+                                    Margin="0,0,10,0"
+                                    Aspect="AspectFit"
+                                    HeightRequest="120"
+                                    HorizontalOptions="Start"
+                                    Source="{Binding Property.MainImageUrl}" />
+                                <Grid Grid.Column="1" Margin="0,10,10,0"  RowDefinitions="Auto, Auto, Auto, Auto" RowSpacing="10">
+                                    <Label
+                                        Grid.Row="0"
+                                        FontAttributes="Bold"
+                                        FontSize="14"
+                                        LineBreakMode="TailTruncation"
+                                        Text="{Binding Property.Address}" />
+                                    <Label
+                                        Grid.Row="1"
+                                        FontSize="13"
+                                        LineBreakMode="NoWrap"
+                                        Text="{Binding Property.Price, StringFormat='{0:C0}'}" />
+                                    <Grid Grid.Row="2" ColumnDefinitions="*, *, *, *, *, *">
+                                        <Label
+                                            Grid.Column="0"
+                                            FontSize="15"
+                                            FontFamily="FA-solid"
+                                            Text="{x:Static fa:IconFont.Bed}"/>
+                                        <Label
+                                            Grid.Column="1"
+                                            FontSize="13"
+                                            Text="{Binding Property.Beds}" />
+                                        <Label
+                                            Grid.Column="2"
+                                            FontSize="15"
+                                            FontFamily="FA-solid"
+                                            Text="{x:Static fa:IconFont.Bath}"/>
+                                        <Label
+                                            Grid.Column="3"
+                                            FontSize="13"
+                                            Text="{Binding Property.Baths}" />
+                                        <Label
+                                            Grid.Column="4"
+                                            FontSize="15"
+                                            FontFamily="FA-solid"
+                                            Text="{x:Static fa:IconFont.Parking}"/>
+                                        <Label
+                                            Grid.Column="5"
+                                            FontSize="13"
+                                            Text="{Binding Property.Parking}" />
+                                    </Grid>
+                                    <Label
+                                        Grid.Row="3"
+                                        FontSize="13"
+                                        Text="{Binding Property.LandSize, StringFormat='Land Size: {0} &#x33a1;'}" />
+                                </Grid>
+                            </Grid>
+                        </Frame>
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+    </RefreshView>
+
+</ContentPage>
