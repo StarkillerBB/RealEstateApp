@@ -123,6 +123,8 @@ public class AddEditPropertyPageViewModel : BaseViewModel
                 _property.Latitude = location.Latitude;
                 _property.Longitude = location.Longitude;
                 OnPropertyChanged(nameof(Property));
+
+                _property.Address = await GetGeocodeReverseData((double)_property.Latitude, (double)_property.Longitude);
             }
 
         }
@@ -136,6 +138,19 @@ public class AddEditPropertyPageViewModel : BaseViewModel
         }
     }
 
+    private async Task<string> GetGeocodeReverseData(double latitude, double longitude)
+    {
+        IEnumerable<Placemark> placemarks = await Geocoding.Default.GetPlacemarksAsync(latitude, longitude);
+
+        Placemark placemark = placemarks?.FirstOrDefault();
+
+        if (placemark != null)
+        {
+            return $"{placemark.FeatureName} {placemark.Thoroughfare} {placemark.Locality} {placemark.PostalCode}";
+        }
+
+        return "";
+    }
 
 
     private Command cancelSaveCommand;
