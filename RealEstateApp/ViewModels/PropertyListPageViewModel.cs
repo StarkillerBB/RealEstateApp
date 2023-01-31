@@ -4,7 +4,6 @@ using RealEstateApp.Views;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
-using Xamarin.Google.Crypto.Tink.Mac;
 
 namespace RealEstateApp.ViewModels;
 public class PropertyListPageViewModel : BaseViewModel
