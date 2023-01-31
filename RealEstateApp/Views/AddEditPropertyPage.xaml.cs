@@ -4,9 +4,18 @@ namespace RealEstateApp.Views;
 
 public partial class AddEditPropertyPage : ContentPage
 {
-	public AddEditPropertyPage(AddEditPropertyPageViewModel vm)
+    AddEditPropertyPageViewModel vm;
+
+    public AddEditPropertyPage(AddEditPropertyPageViewModel vm)
 	{
 		InitializeComponent();
 		BindingContext = vm;
+        this.vm = vm;
 	}
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+
+        vm.GetPropertiesCommand.Execute(null); //TODO : 2.1.1
+    }
 }
