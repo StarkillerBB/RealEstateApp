@@ -17,6 +17,8 @@ public class AddEditPropertyPageViewModel : BaseViewModel
     {
         this.service = service;
         Agents = new ObservableCollection<Agent>(service.GetAgents());
+
+        Connectivity.ConnectivityChanged += ConnectivityChangedMethod;
     }
 
     public string Mode { get; set; }
@@ -69,11 +71,45 @@ public class AddEditPropertyPageViewModel : BaseViewModel
         get { return statusColor; }
         set { SetProperty(ref statusColor, value); }
     }
+    private bool isEnabled;
+
+    public bool IsEnabled
+    {
+        get { return isEnabled; }
+        set { isEnabled = value; }
+    }
+
     #endregion
 
-    async Task GetPropertiesAsync()
+    void ConnectivityChangedMethod(object sender, ConnectivityChangedEventArgs e)
     {
+        if (e.NetworkAccess == NetworkAccess.Internet)
+        {
+            Shell.Current.DisplayAlert("Alert", "Internet genoprettet", "Ok");
+            IsEnabled = true;
+        }
+        else
+        {
+            Shell.Current.DisplayAlert("Alert", "Der er ikke internet.", "Ok");
+            IsEnabled = false;
+        }
+        OnPropertyChanged(nameof(IsEnabled));
 
+    }
+    private Command checkConnectivityCommand; // TODO : 2.1.1
+    public ICommand CheckConnectivityCommand => checkConnectivityCommand ??= new Command(async () => await ConnectivityCheck());
+    async Task ConnectivityCheck()
+    {
+        if (Connectivity.NetworkAccess == NetworkAccess.Internet)
+        {
+            IsEnabled = true;
+        }
+        else
+        {
+            IsEnabled = false;
+            await Shell.Current.DisplayAlert("Alert", "Der er ikke internet.", "Ok");
+        }
+        OnPropertyChanged(nameof(IsEnabled));
     }
 
 

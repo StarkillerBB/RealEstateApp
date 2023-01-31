@@ -54,7 +54,7 @@
                     <Grid ColumnDefinitions="*,*,*" RowDefinitions="*">
                         <Label Text="{Binding Property.Latitude}"/>
                         <Label Text="{Binding Property.Longitude}" Grid.Column="1"/>
-                        <Button Text="{Static fa:IconFont.Thumbtack}" FontFamily="FA-solid" Command="{Binding GetLocation}" Grid.Column="2"/>
+                        <Button Text="{Static fa:IconFont.Thumbtack}" FontFamily="FA-solid" Command="{Binding GetLocation}" Grid.Column="2" IsEnabled="{Binding IsEnabled}"/>
                     </Grid>
                     
                     <Label FontSize="Medium" FontFamily="FA-solid">
