@@ -121,6 +121,7 @@ public class AddEditPropertyPageViewModel : BaseViewModel
         {
            StatusMessage = "Please fill in all required fields";
             StatusColor = Colors.Red;
+            Vibration.Vibrate(TimeSpan.FromSeconds(5));
         }
         else
         {
@@ -190,8 +191,13 @@ public class AddEditPropertyPageViewModel : BaseViewModel
 
 
     private Command cancelSaveCommand;
-    public ICommand CancelSaveCommand => cancelSaveCommand ??= new Command(async () => await Shell.Current.GoToAsync(".."));
+    public ICommand CancelSaveCommand => cancelSaveCommand ??= new Command(async () => await ReturnPage());
 
+    private async Task ReturnPage()
+    {
+        Vibration.Cancel();
+        await Shell.Current.GoToAsync("..");
+    }
 
 
 
