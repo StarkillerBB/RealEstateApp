@@ -10,6 +10,8 @@ namespace RealEstateApp.ViewModels;
 public class AddEditPropertyPageViewModel : BaseViewModel
 {
     readonly IPropertyService service;
+    private CancellationTokenSource _cancelTokenSource;
+    private bool _isCheckingLocation;
 
     public AddEditPropertyPageViewModel(IPropertyService service)
     {
@@ -96,6 +98,49 @@ public class AddEditPropertyPageViewModel : BaseViewModel
         return true;
     }
 
+    private Command getLocation;
+    public ICommand GetLocation => getLocation ??= new Command(async () => await GetCurrentLocation());
+
+    public async Task GetCurrentLocation()
+    {
+        try
+        {
+            _isCheckingLocation = true;
+
+            GeolocationRequest request = new GeolocationRequest(GeolocationAccuracy.Medium, TimeSpan.FromSeconds(10));
+
+            _cancelTokenSource = new CancellationTokenSource();
+
+            Location location = await Geolocation.Default.GetLocationAsync(request, _cancelTokenSource.Token);
+
+            if (location != null)
+            {
+                _property.Latitude = location.Latitude;
+                _property.Longitude = location.Longitude;
+                OnPropertyChanged(nameof(Property));
+            }
+
+        }
+        // Catch one of the following exceptions:
+        //   FeatureNotSupportedException
+        //   FeatureNotEnabledException
+        //   PermissionException
+        catch (Exception ex)
+        {
+            // Unable to get location
+        }
+        finally
+        {
+            _isCheckingLocation = false;
+        }
+    }
+
+
+
     private Command cancelSaveCommand;
     public ICommand CancelSaveCommand => cancelSaveCommand ??= new Command(async () => await Shell.Current.GoToAsync(".."));
+
+
+
+
 }
