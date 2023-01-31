@@ -121,13 +121,9 @@ public class AddEditPropertyPageViewModel : BaseViewModel
             }
 
         }
-        // Catch one of the following exceptions:
-        //   FeatureNotSupportedException
-        //   FeatureNotEnabledException
-        //   PermissionException
         catch (Exception ex)
         {
-            // Unable to get location
+            // DisplayAlert
         }
         finally
         {
