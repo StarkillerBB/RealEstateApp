@@ -52,8 +52,8 @@
                         </Label.FormattedText>
                     </Label>
                     <Grid ColumnDefinitions="*,*,*" RowDefinitions="*">
-                        <Label Text="{Binding Property.Latitude}"/>
-                        <Label Text="{Binding Property.Longitude}" Grid.Column="1"/>
+                        <Label Text="{Binding Property.Latitude,StringFormat='{0:n2}'}"/>
+                        <Label Text="{Binding Property.Longitude,StringFormat='{0:n2}'}" Grid.Column="1"/>
                         <Button Text="{Static fa:IconFont.Thumbtack}" FontFamily="FA-solid" Command="{Binding GetLocation}" Grid.Column="2"/>
                     </Grid>
                     
