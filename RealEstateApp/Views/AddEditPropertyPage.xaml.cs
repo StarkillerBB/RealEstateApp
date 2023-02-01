@@ -16,6 +16,12 @@ public partial class AddEditPropertyPage : ContentPage
     {
         base.OnAppearing();
 
-        vm.GetPropertiesCommand.Execute(null); //TODO : 2.1.1
+        vm.WatchBatteryCommand.Execute(null);
+    }
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        vm.WatchBatteryCommand.Execute(null);
     }
 }

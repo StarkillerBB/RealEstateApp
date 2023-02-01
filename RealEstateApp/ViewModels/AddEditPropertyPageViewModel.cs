@@ -56,6 +56,14 @@ public class AddEditPropertyPageViewModel : BaseViewModel
         }
     }
 
+    bool flashlightToggle = false;
+    public bool FlashlightToggle
+    {
+        get { return flashlightToggle; }
+        set { SetProperty(ref flashlightToggle, value); }
+    }
+
+
     string statusMessage;
     public string StatusMessage
     {
@@ -71,11 +79,80 @@ public class AddEditPropertyPageViewModel : BaseViewModel
     }
     #endregion
 
-    async Task GetPropertiesAsync()
+
+
+    private Command watchBatteryCommand;
+    public ICommand WatchBatteryCommand => watchBatteryCommand ??= new Command(() => WatchBattery());
+    private bool _isBatteryWatched;
+
+    private void WatchBattery()
     {
 
+        if (!_isBatteryWatched)
+        {
+            Battery.Default.BatteryInfoChanged += Battery_BatteryInfoChanged;
+        }
+        else
+        {
+            Battery.Default.BatteryInfoChanged -= Battery_BatteryInfoChanged;
+        }
+
+        _isBatteryWatched = !_isBatteryWatched;
     }
 
+    private void Battery_BatteryInfoChanged(object sender, BatteryInfoChangedEventArgs e)
+    {
+        if (e.ChargeLevel < 0.20)
+        {
+            StatusMessage = "Battery is low";
+
+            if (Battery.State == BatteryState.Charging)
+            {
+                StatusColor = Colors.Yellow;
+            }
+            else if (Battery.EnergySaverStatus == EnergySaverStatus.On)
+            {
+                StatusColor = Colors.Green;
+            }
+            else
+                StatusColor = Colors.Red;
+        }
+        else
+        {
+            StatusMessage = string.Empty;
+
+        }
+    }
+
+    private Command toggleFlashlightCommand;
+    public ICommand ToggleFlashlightCommand => toggleFlashlightCommand ??= new Command(async () => await Flashlight_Toggled());
+    private async Task Flashlight_Toggled()
+    {
+        try
+        {
+            if (!FlashlightToggle)
+                await Flashlight.Default.TurnOnAsync();
+            else
+                await Flashlight.Default.TurnOffAsync();
+
+            FlashlightToggle = !FlashlightToggle;
+        }
+        catch (FeatureNotSupportedException ex)
+        {
+            await Shell.Current.DisplayAlert("Alert", "Flashlight is not supported", "Ok");
+            // Handle not supported on device exception
+        }
+        catch (PermissionException ex)
+        {
+            await Shell.Current.DisplayAlert("Alert", "Doesn't have permission to use flashlight", "Ok");
+            // Handle permission exception
+        }
+        catch (Exception ex)
+        {
+            await Shell.Current.DisplayAlert("Alert", "An error has occured, please try again", "Ok");
+            // Unable to turn on/off flashlight
+        }
+    }
 
     private Command savePropertyCommand;
     public ICommand SavePropertyCommand => savePropertyCommand ??= new Command(async () => await SaveProperty());

@@ -20,6 +20,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Cancel" Command="{Binding CancelSaveCommand}"/>
         <ToolbarItem Text="Save" Command="{Binding SavePropertyCommand}"/>
+        <ToolbarItem Text="Flashlight" Command="{Binding ToggleFlashlightCommand}"/>
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
