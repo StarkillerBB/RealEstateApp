@@ -18,4 +18,10 @@ public partial class AddEditPropertyPage : ContentPage
 
         vm.CheckConnectivityCommand.Execute(null); //TODO : 2.1.1
     }
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        vm.CancelSaveCommand.Execute(null);
+    }
 }
