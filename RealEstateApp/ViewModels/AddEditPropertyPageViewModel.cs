@@ -71,11 +71,6 @@ public class AddEditPropertyPageViewModel : BaseViewModel
     }
     #endregion
 
-    async Task GetPropertiesAsync()
-    {
-
-    }
-
 
     private Command savePropertyCommand;
     public ICommand SavePropertyCommand => savePropertyCommand ??= new Command(async () => await SaveProperty());

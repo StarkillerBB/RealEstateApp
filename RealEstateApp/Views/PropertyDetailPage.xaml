@@ -15,12 +15,18 @@
         <Grid RowDefinitions="Auto,Auto,Auto,Auto,Auto,Auto,Auto,Auto"
               RowSpacing="10"
               Padding="15">
-            <Image
+            <Frame>
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:PropertyDetailPageViewModel}}, Path=GoToImagePageCommand}"
+                                        CommandParameter="{Binding Property}"/>
+                </Frame.GestureRecognizers>
+                <Image
                 Grid.Row="0"
                 Margin="-10,-10,-10,0"
                 Aspect="AspectFill"
                 HeightRequest="225"
                 Source="{Binding Property.MainImageUrl}" />
+            </Frame>
             <Label
                 Grid.Row="1"
                 FontAttributes="Bold"

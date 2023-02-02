@@ -43,4 +43,15 @@ public class PropertyDetailPageViewModel : BaseViewModel
             {"MyProperty", property }
         });
     }
+
+    private Command goToImagePageCommand;
+    public ICommand GoToImagePageCommand => goToImagePageCommand ??= new Command<Property>(async (property) => await GoToImagePage(property));
+    async Task GoToImagePage(Property property)
+    {
+        await Shell.Current.GoToAsync(nameof(ImageListPage), true, new Dictionary<string, object>
+        {
+            {"Property", property}
+        });
+    }
+
 }
