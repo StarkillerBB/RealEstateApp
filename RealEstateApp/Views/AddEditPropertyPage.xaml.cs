@@ -16,6 +16,5 @@ public partial class AddEditPropertyPage : ContentPage
     {
         base.OnAppearing();
 
-        vm.GetPropertiesCommand.Execute(null); //TODO : 2.1.1
     }
 }
