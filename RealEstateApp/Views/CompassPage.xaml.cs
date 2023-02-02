@@ -2,18 +2,20 @@ using RealEstateApp.ViewModels;
 
 namespace RealEstateApp.Views;
 
-public partial class AddEditPropertyPage : ContentPage
+public partial class CompassPage : ContentPage
 {
-    AddEditPropertyPageViewModel vm;
-
-    public AddEditPropertyPage(AddEditPropertyPageViewModel vm)
+	CompassPageViewModel vm;
+	public CompassPage(CompassPageViewModel vm)
 	{
 		InitializeComponent();
 		BindingContext = vm;
-        this.vm = vm;
+		this.vm = vm;
 	}
+
     protected override void OnAppearing()
     {
         base.OnAppearing();
+
+		vm.ToggleCompassCommand.Execute(null);
     }
 }

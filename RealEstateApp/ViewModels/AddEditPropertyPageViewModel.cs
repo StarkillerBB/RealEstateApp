@@ -1,5 +1,6 @@
 ﻿using RealEstateApp.Models;
 using RealEstateApp.Services;
+using RealEstateApp.Views;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -31,6 +32,7 @@ public class AddEditPropertyPageViewModel : BaseViewModel
         set
         {
             SetProperty(ref _property, value);
+            OnPropertyChanged(nameof(Property));
             Title = Mode == "newproperty" ? "Add Property" : "Edit Property";
 
             if (_property.AgentId != null)
@@ -70,11 +72,6 @@ public class AddEditPropertyPageViewModel : BaseViewModel
         set { SetProperty(ref statusColor, value); }
     }
     #endregion
-
-    async Task GetPropertiesAsync()
-    {
-
-    }
 
 
     private Command savePropertyCommand;
@@ -152,6 +149,15 @@ public class AddEditPropertyPageViewModel : BaseViewModel
         return "";
     }
 
+    private Command goToCompassCommand;
+    public ICommand GoToCompassCommand => goToCompassCommand ??= new Command(async () => await GoToCompass());
+    async Task GoToCompass()
+    {
+        await Shell.Current.GoToAsync($"{nameof(CompassPage)}", true, new Dictionary<string, object>
+        {
+            {"Property", Property}
+        });
+    }
 
     private Command cancelSaveCommand;
     public ICommand CancelSaveCommand => cancelSaveCommand ??= new Command(async () => await Shell.Current.GoToAsync(".."));

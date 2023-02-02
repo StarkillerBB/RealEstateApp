@@ -20,6 +20,7 @@
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Cancel" Command="{Binding CancelSaveCommand}"/>
         <ToolbarItem Text="Save" Command="{Binding SavePropertyCommand}"/>
+        <ToolbarItem Text="{Static fa:IconFont.DraftingCompass}" Command="{Binding GoToCompassCommand}"/>
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
@@ -41,6 +42,16 @@
                         </Label.FormattedText>
                     </Label>
                     <Entry FontSize="Medium" Text="{Binding Property.Address}" />
+                    <Label>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="{x:Static fa:IconFont.Compass}" FontFamily="FA-solid" />
+                                <Span Text=" " />
+                                <Span Text="Aspect" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Entry FontSize="Medium" Text="{Binding Property.Aspect}"/>
 
                     <Label FontSize="Medium">
                         <Label.FormattedText>
