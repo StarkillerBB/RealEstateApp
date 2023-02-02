@@ -6,6 +6,7 @@
     xmlns:views="clr-namespace:RealEstateApp.Views"
     Shell.FlyoutBehavior="Flyout">
 
+    
     <ShellContent
         Title="PropertyList"
         ContentTemplate="{DataTemplate views:PropertyListPage}"
@@ -15,5 +16,10 @@
         Title="About"
         ContentTemplate="{DataTemplate views:AboutPage}"
         Route="about" />
+    <FlyoutItem>
+        <Tab>
+            <ShellContent Title="Barometer" ContentTemplate="{DataTemplate views:HeightCalculatorPage}" Route="HeightCalculator"/>
+        </Tab>
+    </FlyoutItem>
 
 </Shell>

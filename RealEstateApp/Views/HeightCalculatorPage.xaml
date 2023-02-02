@@ -7,26 +7,33 @@
              xmlns:models="clr-namespace:RealEstateApp.Models"
              xmlns:fa="clr-namespace:FontAwesome"
              x:DataType="vm:HeightCalculatorPageViewModel">
-    
-    <Grid RowDefinitions="Auto,*,Auto" ColumnDefinitions="*" >
 
-        <Label FontSize="Large" FontFamily="FA-solid" Margin="0,20" HorizontalOptions="Center" Text="{Binding CurrentAltitude}"/>
-        <Label FontSize="Large" FontFamily="FA-solid" Margin="0,20" HorizontalOptions="Center">
-            <Label.FormattedText>
-                <FormattedString>
-                    <Span Text="{Static fa:IconFont.ArrowUp}"/>
-                    <Span Text=" " />
-                    <Span Text="{Binding CurrentAspect}" />
-                    <Span Text=" Aspect" />
-                    <Span Text=" " />
-                    <Span Text="{Static fa:IconFont.ArrowUp}"/>
-                </FormattedString>
-            </Label.FormattedText>
-        </Label>
+    <Grid RowDefinitions="Auto,Auto,Auto,Auto,*,Auto" ColumnDefinitions="*" >
 
+        <Label FontSize="Large" FontFamily="FA-solid" Margin="0,20" HorizontalOptions="Center" Text="{Binding CurrentAltitude, StringFormat='Current Altitude {0:N2}'}"/>
+        <Entry Grid.Row="1" Placeholder="Measurement Label" Text="{Binding MeaurementLabel}"/>
+        <Button Grid.Row="2" Text="Save" Command="{Binding SaveBarometerCommand}"/>
+        <RefreshView>
+            <CollectionView ItemsSource="{Binding BarometerMeasurements}" SelectionMode="None">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="{Binding BarometerObj.Display}" FontFamily="FA-solid"/>
+                                    <Span Text=" " />
+                                    <Span Text="{Binding BarometerObj.HeightChange, StringFormat='({0:N2}m)'}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+        </RefreshView>
         <Label Text="{Binding CurrentPressure, StringFormat='Current Pressure {0:N2}'}" 
         Margin="0,20" 
-        Grid.Row="2" Grid.Column="0" 
+        Grid.Row="5" Grid.Column="0" 
         HorizontalOptions="Center" />
     </Grid>
 </ContentPage>
