@@ -32,7 +32,6 @@ public class AddEditPropertyPageViewModel : BaseViewModel
         set
         {
             SetProperty(ref _property, value);
-            OnPropertyChanged(nameof(Property));
             Title = Mode == "newproperty" ? "Add Property" : "Edit Property";
 
             if (_property.AgentId != null)

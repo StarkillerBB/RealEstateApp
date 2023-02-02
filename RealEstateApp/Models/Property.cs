@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace RealEstateApp.Models
 {
-    public class Property
+    public class Property : INotifyPropertyChanged
     {
         public Property()
         {
@@ -24,8 +24,26 @@ namespace RealEstateApp.Models
         public List<string> ImageUrls { get; set; }
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
-        public string Aspect { get; set; }
+
+        private string _aspect;
+        public string Aspect
+        {
+            get { return _aspect; }
+            set
+            { 
+                _aspect = value;
+                OnPropertyChanged();
+            }
+        }
 
         public string MainImageUrl => ImageUrls?.FirstOrDefault() ?? GlobalSettings.Instance.NoImageUrl;
+
+
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        public void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 }
