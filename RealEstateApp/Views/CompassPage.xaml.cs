@@ -18,4 +18,11 @@ public partial class CompassPage : ContentPage
 
 		vm.ToggleCompassCommand.Execute(null);
     }
+
+    protected override void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        vm.ToggleCompassCommand.Execute(null);
+    }
 }
