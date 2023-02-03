@@ -9,10 +9,12 @@ namespace RealEstateApp.Repositories
         {
             LoadProperties();
             LoadAgents();
+            LoadFiles();
         }
 
         private List<Agent> _agents;
         private List<Property> _properties;
+        private string _contractFilePath;
 
         public List<Agent> GetAgents() => _agents;
         public List<Property> GetProperties() => _properties;
@@ -35,6 +37,19 @@ namespace RealEstateApp.Repositories
             }
         }
 
+        private async void LoadFiles()
+        {
+            var documents = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);   // find destination FolderPath
+            _contractFilePath = Path.Combine(documents, "contract.pdf");                        // opret den komplette path for destination-filen
+
+            using (var stream = await FileSystem.OpenAppPackageFileAsync("contract.pdf"))       // åbn source-filen og kald den "stream"
+            {
+                using (var file = File.OpenWrite(_contractFilePath))                            // opret en ny destination-fil kaldet "file" med den beregnede filepath
+                {
+                    stream.CopyTo(file);                                                        // kopiér fra source (stream) til destination (file)
+                }
+            }
+        }
 
         private void LoadProperties()
         {
@@ -55,8 +70,8 @@ namespace RealEstateApp.Repositories
                         Email = "wgrant@pluralsight.com",
                         Phone = "+61423555712"
                     },
-                    NeighbourhoodUrl = "https://en.wikipedia.org/wiki/Collaroy,_New_South_Wales"
-                    //ContractFilePath = _contractFilePath,
+                    NeighbourhoodUrl = "https://en.wikipedia.org/wiki/Collaroy,_New_South_Wales",
+                    ContractFilePath = _contractFilePath,
                     //Aspect = "North"
                 },
                 new Property
@@ -74,8 +89,8 @@ namespace RealEstateApp.Repositories
                         Email = "acooper@pluralsight.com",
                         Phone = "+61290014312"
                     },
-                    NeighbourhoodUrl = "https://en.wikipedia.org/wiki/Collaroy,_New_South_Wales"
-                    //ContractFilePath = _contractFilePath,
+                    NeighbourhoodUrl = "https://en.wikipedia.org/wiki/Collaroy,_New_South_Wales",
+                    ContractFilePath = _contractFilePath,
                     //Aspect = "East"
                 },
                 new Property
@@ -92,8 +107,8 @@ namespace RealEstateApp.Repositories
                         Email = "mpickering@pluralsight.com",
                         Phone = "0429008145"
                     },
-                    NeighbourhoodUrl = "https://en.wikipedia.org/wiki/Collaroy,_New_South_Wales"
-                    //ContractFilePath = _contractFilePath,
+                    NeighbourhoodUrl = "https://en.wikipedia.org/wiki/Collaroy,_New_South_Wales",
+                    ContractFilePath = _contractFilePath,
                     //Aspect = "South"
                 },
                 new Property
@@ -111,8 +126,8 @@ namespace RealEstateApp.Repositories
                         Email = "sbyron@pluralsight.com",
                         Phone = "02 8090 6412"
                     },
-                    NeighbourhoodUrl = "https://en.wikipedia.org/wiki/Collaroy,_New_South_Wales"
-                    //ContractFilePath = _contractFilePath,
+                    NeighbourhoodUrl = "https://en.wikipedia.org/wiki/Collaroy,_New_South_Wales",
+                    ContractFilePath = _contractFilePath,
                     //Aspect = "North"
                 },
                 new Property
@@ -129,8 +144,8 @@ namespace RealEstateApp.Repositories
                         Email = "joaks@pluralsight.com",
                         Phone = "90541823"
                     },
-                    NeighbourhoodUrl = "https://en.wikipedia.org/wiki/Collaroy,_New_South_Wales"
-                    //ContractFilePath = _contractFilePath,
+                    NeighbourhoodUrl = "https://en.wikipedia.org/wiki/Collaroy,_New_South_Wales",
+                    ContractFilePath = _contractFilePath,
                     //Aspect = "West"
                 }
             };

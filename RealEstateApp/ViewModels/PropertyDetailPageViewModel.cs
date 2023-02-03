@@ -95,6 +95,72 @@ public class PropertyDetailPageViewModel : BaseViewModel
         }
     }
 
+    private Command openBrowserCommand;
+    public ICommand OpenBrowserCommand => openBrowserCommand ??= new Command(async () => await BrowserOpen());
+    private async Task BrowserOpen()
+    {
+        try
+        {
+            Uri uri = new Uri(property.NeighbourhoodUrl);
+            BrowserLaunchOptions options = new BrowserLaunchOptions()
+            {
+                LaunchMode = BrowserLaunchMode.SystemPreferred,
+                TitleMode = BrowserTitleMode.Show,
+                PreferredToolbarColor = Colors.Violet,
+                PreferredControlColor = Colors.Purple
+            };
+
+            await Browser.Default.OpenAsync(uri, options);
+        }
+        catch (Exception ex)
+        {
+            // An unexpected error occurred. No browser may be installed on the device.
+        }
+    }
+
+    private Command openFileCommand;
+    public ICommand OpenFileCommand => openFileCommand ??= new Command(async () => await OpenFile());
+    private async Task OpenFile()
+    {
+        string popoverTitle = "Read text file";
+        string name = "File.txt";
+        string file = System.IO.Path.Combine(FileSystem.CacheDirectory, name);
+
+        System.IO.File.WriteAllText(file, "Hello World");
+
+        await Launcher.Default.OpenAsync(new OpenFileRequest(popoverTitle, new ReadOnlyFile(file)));
+    }
+
+    private Command shareTextCommand;
+    public ICommand ShareTextCommand => shareTextCommand ??= new Command(async () => await ShareText());
+    public async Task ShareText()
+    {
+        await Share.Default.RequestAsync(new ShareTextRequest
+        {
+            Uri = property.NeighbourhoodUrl,
+            Subject = "A property you may be interested in",
+            Text = $"{property.Address}, {property.Price}, {property.Beds}",
+            Title = "Share Property"
+        });
+    }
+
+    private Command shareFileCommand;
+    public ICommand ShareFileCommand => shareFileCommand ??= new Command(async () => await ShareFile());
+    public async Task ShareFile()
+    {
+        string fn = "Attachment.txt";
+        string file = Path.Combine(FileSystem.CacheDirectory, fn);
+
+        File.WriteAllText(file, "Hello World");
+
+        await Share.Default.RequestAsync(new ShareFileRequest
+        {
+            Title = "Share text file",
+            File = new ShareFile(file)
+        });
+    }
+
+
     private Command editPropertyCommand;
     public ICommand EditPropertyCommand => editPropertyCommand ??= new Command(async () => await GotoEditProperty());
     async Task GotoEditProperty()

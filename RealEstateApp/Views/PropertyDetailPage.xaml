@@ -9,6 +9,9 @@
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Edit" Command="{Binding EditPropertyCommand}" />
+        <ToolbarItem Text="Browser" Command="{Binding OpenBrowserCommand}" />
+        <ToolbarItem Text="File" Command="{Binding OpenFileCommand}" />
+        <ToolbarItem Text="Text" Command="{Binding ShareTextCommand}" />
     </ContentPage.ToolbarItems>
 
     <ScrollView >
@@ -101,7 +104,7 @@
                 TextColor="Blue"
                 TextDecorations="Underline">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer />
+                        <TapGestureRecognizer Command="{Binding SendMailCommand}"/>
                     </Label.GestureRecognizers>
                 </Label>
                 <Label 
@@ -112,7 +115,7 @@
                 TextColor="Blue"
                 TextDecorations="Underline">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command=""/>
+                        <TapGestureRecognizer Command="{Binding DisplayPhoneOptionsCommand}"/>
                     </Label.GestureRecognizers>
                 </Label>
             </StackLayout>
