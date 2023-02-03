@@ -101,7 +101,7 @@
                 TextColor="Blue"
                 TextDecorations="Underline">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer />
+                        <TapGestureRecognizer Command="{Binding SendMailCommand}"/>
                     </Label.GestureRecognizers>
                 </Label>
                 <Label 
@@ -112,7 +112,7 @@
                 TextColor="Blue"
                 TextDecorations="Underline">
                     <Label.GestureRecognizers>
-                        <TapGestureRecognizer Command=""/>
+                        <TapGestureRecognizer Command="{Binding DisplayPhoneOptionsCommand}"/>
                     </Label.GestureRecognizers>
                 </Label>
             </StackLayout>
