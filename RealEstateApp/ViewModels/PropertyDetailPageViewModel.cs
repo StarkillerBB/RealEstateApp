@@ -12,7 +12,12 @@ public class PropertyDetailPageViewModel : BaseViewModel
     public PropertyDetailPageViewModel(IPropertyService service)
     {
         this.service = service;
+        Volume = Preferences.Default.Get("volume", 0.5);
+        Pitch = Preferences.Default.Get("pitch", 0.5);
     }
+
+    public double Pitch { get; set; }
+    public double Volume { get; set; }
 
     Property property;
     public Property Property { get => property; set { SetProperty(ref property, value); } }
